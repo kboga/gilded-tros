@@ -47,7 +47,7 @@ namespace GildedTros.App
             void UpdateOnDayPassed(IUpdatableItem item);
         }
 
-        private enum ItemType { Regular, Appreciating, Legendary, BackstagePass }
+        private enum ItemType { Regular, Appreciating, Legendary, BackstagePass, Smelly }
 
         private static IItemUpdateStrategy GetItemUpdateStrategy(this IReadableItem item) =>
             item.GetItemType() switch
@@ -56,6 +56,7 @@ namespace GildedTros.App
                 ItemType.Appreciating => new QualityIncreasingItemUpdateStrategy(1, true),
                 ItemType.Legendary => new LegendaryItemUpdateStrategy(),
                 ItemType.BackstagePass => new BackStagePassItemUpdateStrategy(),
+                ItemType.Smelly => new QualityDecreasingItemUpdateStrategy(2, true),
                 _ => throw new InvalidOperationException($"{nameof(ItemType)} {item.GetItemType()} is not supported!"),
             };
 
@@ -64,6 +65,7 @@ namespace GildedTros.App
             {
                 "Good Wine" => ItemType.Appreciating,
                 "B-DAWG Keychain" => ItemType.Legendary,
+                "Duplicate Code" or "Long Methods" or "Ugly Variable Names" => ItemType.Smelly,
                 "Backstage passes for Re:factor" or "Backstage passes for HAXX" => ItemType.BackstagePass,
                 _ => ItemType.Regular
             };
