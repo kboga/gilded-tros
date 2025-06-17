@@ -17,7 +17,7 @@ namespace GildedTros.App
             Console.SetOut(new StringWriter(fakeoutput));
             Console.SetIn(new StringReader("a\n"));
 
-            Program.Main(new string[] { });
+            Program.Main([]);
             var output = fakeoutput.ToString();
 
             Approvals.Verify(output);
